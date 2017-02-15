@@ -40,8 +40,8 @@ class Image {
   }
 
   public function enregistreImage($nouveauNomApercu, $nouveauNomImage) {
-    // rename(self::$repositoryPath.$this->apercu, self::$repositoryPath.$nouveauNomApercu);
-    // rename(self::$repositoryPath.$this->image, self::$repositoryPath.$nouveauNomImage);
+    rename(self::$repositoryPath.$this->apercu, self::$repositoryPath.$nouveauNomApercu);
+    rename(self::$repositoryPath.$this->image, self::$repositoryPath.$nouveauNomImage);
     global $pdo;
 
     $sql = "UPDATE realisations SET apercu = :apercu, image = :image, new_apercu = :new_apercu, new_image = :new_image WHERE apercu = :apercu";
