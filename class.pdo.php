@@ -43,4 +43,9 @@ class PdoHappiness
     else
       return $req;
   }
+
+  static public function getMonPdo() {
+    return self::$monPdo;
+  }
+
 }

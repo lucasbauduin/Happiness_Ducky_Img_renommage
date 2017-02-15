@@ -32,16 +32,29 @@ class Image {
       $nouveauNomApercu = "thumb_".time()."_".self::$cmpt.$extensionImage;
       $nouveauNomImage = time()."_".self::$cmpt.$extensionImage;
       self::$cmpt ++;
-      echo $nomFichierApercu.$extensionApercu." -> ".$nouveauNomApercu."<br />";
-      echo $nomFichierImage.$extensionImage." -> ".$nouveauNomImage."<br />";
+      // echo $nomFichierApercu.$extensionApercu." -> ".$nouveauNomApercu."<br />";
+      // echo $nomFichierImage.$extensionImage." -> ".$nouveauNomImage."<br />";
       $this->enregistreImage($nouveauNomApercu, $nouveauNomImage);
+      // $this->testSQL($nouveauNomApercu, $nouveauNomImage);
     }
   }
 
   public function enregistreImage($nouveauNomApercu, $nouveauNomImage) {
-    rename(self::$repositoryPath.$this->apercu, self::$repositoryPath.$nouveauNomApercu);
-    rename(self::$repositoryPath.$this->image, self::$repositoryPath.$nouveauNomImage);
-    PdoHappiness::query("UPDATE realisations SET apercu = ".$this->apercu.", image = ".$this->image.", new_apercu = ".$nouveauNomApercu.", new_image = ".$nouveauNomImage." WHERE apercu = ".$this->apercu);
+    // rename(self::$repositoryPath.$this->apercu, self::$repositoryPath.$nouveauNomApercu);
+    // rename(self::$repositoryPath.$this->image, self::$repositoryPath.$nouveauNomImage);
+    global $pdo;
+
+    $sql = "UPDATE realisations SET apercu = :apercu, image = :image, new_apercu = :new_apercu, new_image = :new_image WHERE apercu = :apercu";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':apercu', $this->apercu, PDO::PARAM_STR);
+    $stmt->bindParam(':image', $this->image, PDO::PARAM_STR);
+    $stmt->bindParam(':new_apercu', $nouveauNomApercu, PDO::PARAM_STR);
+    $stmt->bindParam(':new_image', $nouveauNomImage, PDO::PARAM_STR);
+    $stmt->execute();
+  }
+
+  public function testSQL($nouveauNomApercu, $nouveauNomImage) {
+
   }
 
   static function getAvertissements() {

@@ -2,6 +2,7 @@
 require_once 'class.pdo.php';
 require_once 'class.image.php';
 PdoHappiness::getPdoHappiness();
+$pdo = PdoHappiness::getMonPdo();
 
 $imagesData = PdoHappiness::query("SELECT * FROM realisations ORDER BY id");
 foreach ($imagesData as $imageData) {
